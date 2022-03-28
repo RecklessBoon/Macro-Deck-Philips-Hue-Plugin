@@ -3,4 +3,5 @@
     <PackageId>RecklessBoon.MacroDeck.PhilipsHuePlugin</PackageId>
     <Author>RecklessBoon</Author>
     <MainFile>Philips Hue Plugin.dll</MainFile>
+    <Repository>https://github.com/RecklessBoon/Macro-Deck-Philips-Hue</Repository>
 </PluginManifest>

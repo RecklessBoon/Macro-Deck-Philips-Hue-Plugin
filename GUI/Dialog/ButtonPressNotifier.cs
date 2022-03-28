@@ -23,17 +23,19 @@ namespace RecklessBoon.MacroDeck.PhilipsHuePlugin.GUI.Dialog
         {
             Task.Run(() =>
             {
-                if (!this.IsDisposed)
+                var time = 0;
+                while (time < 30)
                 {
-                    var time = 0;
-                    while (time < 30)
+                    if (!prgTimer.IsDisposed)
                     {
-                        prgTimer.Value += 1;
-                        Thread.Sleep(1000);
+                        prgTimer.Invoke((MethodInvoker)(() =>
+                        {
+                            prgTimer.Value += 1;
+                        }));
                     }
-                    this.Close();
+                    Thread.Sleep(1000);
                 }
-
+                this.Close();
             });
         }
     }

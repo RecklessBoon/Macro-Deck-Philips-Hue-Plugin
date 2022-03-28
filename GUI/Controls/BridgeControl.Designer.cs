@@ -77,13 +77,13 @@
             this.btnConnect.UseWindowsAccentColor = true;
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
-            // Bridge
+            // BridgeControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(45)))));
             this.Controls.Add(this.panel1);
-            this.Name = "Bridge";
+            this.Name = "BridgeControl";
             this.Size = new System.Drawing.Size(505, 41);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

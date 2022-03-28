@@ -48,7 +48,7 @@
             this.prgTimer.Location = new System.Drawing.Point(4, 46);
             this.prgTimer.Maximum = 30;
             this.prgTimer.Name = "prgTimer";
-            this.prgTimer.Size = new System.Drawing.Size(792, 23);
+            this.prgTimer.Size = new System.Drawing.Size(429, 23);
             this.prgTimer.Step = 1;
             this.prgTimer.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.prgTimer.TabIndex = 3;
@@ -57,7 +57,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 79);
+            this.ClientSize = new System.Drawing.Size(437, 79);
             this.Controls.Add(this.prgTimer);
             this.Controls.Add(this.label1);
             this.Location = new System.Drawing.Point(0, 0);
