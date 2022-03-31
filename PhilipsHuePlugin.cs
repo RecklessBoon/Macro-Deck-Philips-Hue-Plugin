@@ -52,9 +52,10 @@ namespace RecklessBoon.MacroDeck.PhilipsHuePlugin
                 }
             });
 
-            this.Actions.Add(
+            this.Actions = new List<PluginAction> {
+                new SetSceneAction(),
                 new UpdateLightAction()
-            );
+            };
         }
 
         public override void OpenConfigurator()

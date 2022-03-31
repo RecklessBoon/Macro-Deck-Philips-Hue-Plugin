@@ -12,11 +12,11 @@
         <AssemblyName>Philips Hue Plugin</AssemblyName>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <Platforms>AnyCPU;x64</Platforms>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-      <PackageReference Include="PixiEditor.ColorPicker" Version="3.2.0" />
       <PackageReference Include="Q42.HueApi" Version="3.19.3" />
       <PackageReference Include="Q42.HueApi.ColorConverters" Version="3.18.1" />
       <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
