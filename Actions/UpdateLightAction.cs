@@ -19,8 +19,13 @@ namespace RecklessBoon.MacroDeck.PhilipsHuePlugin.Actions
         public string BridgeId { get; set; }
 
         public List<string> LightIds { get; set; }
-        public Color color { get; set; }
-        public bool isOn { get; set; }
+
+        public Color? color { get; set; }
+        public bool? isOn { get; set; }
+
+        public byte? Brightness { get; set; }
+
+        public TimeSpan? TransitionTime { get; set; }
     }
 
     public class UpdateLightAction : PluginAction
@@ -45,9 +50,16 @@ namespace RecklessBoon.MacroDeck.PhilipsHuePlugin.Actions
         {
             var config = JsonConvert.DeserializeObject<UpdateLightConfig>(this.Configuration);
 
-            var command = new LightCommand();
-            command.SetColor(new RGBColor(config.color.R, config.color.G, config.color.B));
-            command.On = config.isOn;
+            var command = new LightCommand()
+            {
+                On = config.isOn,
+                Brightness = config.Brightness,
+                TransitionTime = config.TransitionTime
+            };
+            if (config.color != default)
+            {
+                command.SetColor(new RGBColor(config.color.Value.R, config.color.Value.G, config.color.Value.B));
+            }
             var client = Cache.HueClients[config.BridgeId];
             _ = client.SendCommandAsync(command, config.LightIds);
         }

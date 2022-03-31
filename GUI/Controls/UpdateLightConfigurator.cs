@@ -25,9 +25,9 @@ namespace RecklessBoon.MacroDeck.PhilipsHuePlugin.GUI.Controls
 
         public UpdateLightConfigurator(UpdateLightAction action, ActionConfigurator actionConfigurator)
         {
+            InitializeComponent();
             this._macroDeckAction = action;
             this._config = action.Configuration != null ? JsonConvert.DeserializeObject<UpdateLightConfig>(action.Configuration) : null;
-            InitializeComponent();
             _ = PopulateBridgesAsync();
             ddlBridge.SelectedIndexChanged += (object sender, EventArgs args) =>
             {
@@ -35,16 +35,18 @@ namespace RecklessBoon.MacroDeck.PhilipsHuePlugin.GUI.Controls
             };
             if (this._config != null)
             {
-                cbxOnOff.Checked = this._config.isOn;
-                colorDialog1.Color = this._config.color;
-                btnColorSelector.BackColor = this._config.color;
+                lightSettings1.cbxOnOff.Checked = _config.isOn ?? true;
+                lightSettings1.colorDialog1.Color = _config.color ?? Color.White;
+                lightSettings1.btnColorSelector.BackColor = lightSettings1.colorDialog1.Color;
+                lightSettings1.trkBrightness.Value = _config.Brightness ?? 255;
+                lightSettings1.numTransitionTime.Value = _config.TransitionTime.HasValue ? (int)_config.TransitionTime.Value.TotalMilliseconds / 100 : 4;
             }
 
-            btnColorSelector.Click += (sender, args) =>
+            lightSettings1.btnColorSelector.Click += (sender, args) =>
             {
-                if (colorDialog1.ShowDialog() == DialogResult.OK)
+                if (lightSettings1.colorDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    btnColorSelector.BackColor = colorDialog1.Color;
+                    lightSettings1.btnColorSelector.BackColor = lightSettings1.colorDialog1.Color;
                 };
             };
         }
@@ -120,8 +122,10 @@ namespace RecklessBoon.MacroDeck.PhilipsHuePlugin.GUI.Controls
                 {
                     BridgeId = bridgeId,
                     LightIds = lightIds,
-                    color = colorDialog1.Color,
-                    isOn = cbxOnOff.Checked
+                    color = lightSettings1.colorDialog1.Color,
+                    isOn = lightSettings1.cbxOnOff.Checked,
+                    Brightness = (byte)lightSettings1.trkBrightness.Value,
+                    TransitionTime = new TimeSpan(0, 0, 0, 0, (int)lightSettings1.numTransitionTime.Value * 100)
                 };
                 var json = JsonConvert.SerializeObject(config);
                 this._macroDeckAction.ConfigurationSummary = config.BridgeId; // Set a summary of the configuration that gets displayed in the ButtonConfigurator item
