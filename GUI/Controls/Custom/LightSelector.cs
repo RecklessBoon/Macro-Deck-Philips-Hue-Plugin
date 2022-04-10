@@ -9,11 +9,6 @@ using System.Windows.Forms;
 
 namespace RecklessBoon.MacroDeck.PhilipsHuePlugin.GUI.Controls
 {
-    public class SelectedChangedEventArgs : EventArgs
-    {
-        public bool Selected { get; set; }
-    }
-
     public partial class LightSelector : RoundedUserControl
     {
         public event EventHandler<SelectedChangedEventArgs> OnSelectedChanged;
@@ -67,5 +62,10 @@ namespace RecklessBoon.MacroDeck.PhilipsHuePlugin.GUI.Controls
         {
             return Selected ? Value : null;
         }
+    }
+
+    public class SelectedChangedEventArgs : EventArgs
+    {
+        public bool Selected { get; set; }
     }
 }

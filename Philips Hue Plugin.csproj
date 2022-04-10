@@ -29,6 +29,12 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Compile Update="GUI\Controls\AdjustBrightnessConfigurator.cs">
+        <SubType>UserControl</SubType>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
         <None Update="README.md">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
