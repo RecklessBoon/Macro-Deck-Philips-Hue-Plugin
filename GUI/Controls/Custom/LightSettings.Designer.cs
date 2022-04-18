@@ -78,6 +78,12 @@
             this.cbxOnOff.TabIndex = 7;
             this.cbxOnOff.UseVisualStyleBackColor = true;
             // 
+            // colorDialog1
+            // 
+            this.colorDialog1.AnyColor = true;
+            this.colorDialog1.FullOpen = true;
+            this.colorDialog1.SolidColorOnly = true;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;

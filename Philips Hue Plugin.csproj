@@ -29,7 +29,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="GUI\Controls\AdjustBrightnessConfigurator.cs">
+      <Compile Update="GUI\Controls\AdjustLightConfigurator.cs">
         <SubType>UserControl</SubType>
       </Compile>
     </ItemGroup>
@@ -44,7 +44,6 @@
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
         <Exec Command="if not exist &quot;$(ProjectDir)..\..\Macro Deck 2\Macro-Deck\bin\Debug\netcoreapp3.1\Data\plugins\$(PackageId)&quot; mkdir &quot;$(ProjectDir)..\..\Macro Deck 2\Macro-Deck\bin\Debug\netcoreapp3.1\Data\plugins\$(PackageId)&quot;" />
         <Exec Command="copy /Y &quot;$(ProjectDir)ExtensionManifest.json&quot; &quot;$(ProjectDir)..\..\Macro Deck 2\Macro-Deck\bin\Debug\netcoreapp3.1\Data\plugins\$(PackageId)\ExtensionManifest.json&quot;" />
-        <Exec Command="copy /Y &quot;$(ProjectDir)Plugin.xml&quot; &quot;$(ProjectDir)..\..\Macro Deck 2\Macro-Deck\bin\Debug\netcoreapp3.1\Data\plugins\$(PackageId)\Plugin.xml&quot;" />
         <Exec Command="copy /Y &quot;$(TargetDir)*.dll&quot; &quot;$(ProjectDir)..\..\Macro Deck 2\Macro-Deck\bin\Debug\netcoreapp3.1\Data\plugins\$(PackageId)\&quot;" />
     </Target>
 

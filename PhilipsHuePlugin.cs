@@ -55,7 +55,7 @@ namespace RecklessBoon.MacroDeck.PhilipsHuePlugin
             this.Actions = new List<PluginAction> {
                 new SetSceneAction(),
                 new UpdateLightAction(),
-                new AdjustBrightnessAction(),
+                new AdjustLightAction(),
             };
         }
 

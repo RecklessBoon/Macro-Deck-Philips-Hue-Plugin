@@ -1,33 +1,28 @@
 ﻿using Newtonsoft.Json;
-using Q42.HueApi.Interfaces;
-using Q42.HueApi.Models.Bridge;
 using RecklessBoon.MacroDeck.PhilipsHuePlugin.Actions;
 using SuchByte.MacroDeck.GUI;
 using SuchByte.MacroDeck.GUI.CustomControls;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.ComboBox;
 
 namespace RecklessBoon.MacroDeck.PhilipsHuePlugin.GUI.Controls
 {
-    public partial class AdjustBrightnessConfigurator : ActionConfigControl
+    public partial class AdjustLightConfigurator : ActionConfigControl
     {
         // Add a variable for the instance of your action to get access to the Configuration etc.
-        private AdjustBrightnessAction _macroDeckAction;
+        private AdjustLightAction _macroDeckAction;
 
-        protected AdjustBrightnessConfig _config;
+        protected AdjustLightConfig _config;
 
-        public AdjustBrightnessConfigurator(AdjustBrightnessAction action, ActionConfigurator actionConfigurator)
+        public AdjustLightConfigurator(AdjustLightAction action, ActionConfigurator actionConfigurator)
         {
             InitializeComponent();
+
             this._macroDeckAction = action;
-            this._config = action.Configuration != null ? JsonConvert.DeserializeObject<AdjustBrightnessConfig>(action.Configuration) : null;
+            this._config = action.Configuration != null ? JsonConvert.DeserializeObject<AdjustLightConfig>(action.Configuration) : null;
             _ = PopulateBridgesAsync();
             ddlBridge.SelectedIndexChanged += (object sender, EventArgs args) =>
             {
@@ -35,15 +30,24 @@ namespace RecklessBoon.MacroDeck.PhilipsHuePlugin.GUI.Controls
             };
             if (this._config != null)
             {
-                trkBrightness.Value = this._config.AdjustmentPercent;
+                trkBrightness.Value = this._config.BrightnessAdjustmentPercent ?? 0;
+                trkSaturation.Value = this._config.SaturationAdjustmentPercent ?? 0;
+                trkHue.Value = this._config.HueAdjustmentPercent ?? 0;
+                trkColorTemperature.Value = this._config.ColorTemperatureAdjustmentPercent ?? 0;
             }
+        }
+
+        private void Trackbar_Scrolled(object sender, EventArgs e)
+        {
+            TrackBar trackBar = (TrackBar)sender;
+            toolTip1.SetToolTip(trackBar, trackBar.Value.ToString() + '%');
         }
 
         protected async Task PopulateBridgesAsync()
         {
             ddlBridge.Items.Clear();
             int preselectIndex = -1;
-            foreach(var client in Cache.HueClients)
+            foreach (var client in Cache.HueClients)
             {
                 var bridge = await client.Value.GetBridgeAsync();
                 var index = ddlBridge.Items.Add(bridge.Config.BridgeId.ToLower());
@@ -53,7 +57,7 @@ namespace RecklessBoon.MacroDeck.PhilipsHuePlugin.GUI.Controls
                 }
             }
 
-            if (preselectIndex >=0 )
+            if (preselectIndex >= 0)
             {
                 ddlBridge.SelectedIndex = preselectIndex;
             }
@@ -70,7 +74,8 @@ namespace RecklessBoon.MacroDeck.PhilipsHuePlugin.GUI.Controls
                 foreach (var light in lights)
                 {
                     var lightSelector = new LightSelector(light.Id, light.Name, light);
-                    pnlLights.Invoke((MethodInvoker)(() => {
+                    pnlLights.Invoke((MethodInvoker)(() =>
+                    {
                         if (this._config != null && this._config.LightIds.Contains(light.Id))
                         {
                             lightSelector.Selected = true;
@@ -98,12 +103,22 @@ namespace RecklessBoon.MacroDeck.PhilipsHuePlugin.GUI.Controls
             {
                 var bridgeId = (string)ddlBridge.Items[ddlBridge.SelectedIndex];
                 var lightIds = new List<string>();
+                foreach (LightSelector lightSelector in pnlLights.Controls)
+                {
+                    if (lightSelector.Selected)
+                    {
+                        lightIds.Add(lightSelector.ID);
+                    }
+                }
 
-                var config = new AdjustBrightnessConfig
+                var config = new AdjustLightConfig
                 {
                     BridgeId = bridgeId,
                     LightIds = lightIds,
-                    AdjustmentPercent = trkBrightness.Value
+                    BrightnessAdjustmentPercent = trkBrightness.Value != 0 ? (int?)trkBrightness.Value : null,
+                    SaturationAdjustmentPercent = trkSaturation.Value != 0 ? (int?)trkSaturation.Value : null,
+                    HueAdjustmentPercent = trkHue.Value != 0 ? (int?)trkHue.Value : null,
+                    ColorTemperatureAdjustmentPercent = trkColorTemperature.Value != 0 ? (int?)trkColorTemperature.Value : null,
                 };
                 var json = JsonConvert.SerializeObject(config);
                 this._macroDeckAction.ConfigurationSummary = config.BridgeId; // Set a summary of the configuration that gets displayed in the ButtonConfigurator item
