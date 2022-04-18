@@ -79,8 +79,27 @@ namespace RecklessBoon.MacroDeck.PhilipsHuePlugin.GUI.Controls
 
         protected async Task ConnectBridgeAsync()
         {
-            var notifier = new ButtonPressNotifier();
-            notifier.Show();
+            prgTimer.Value = 0;
+            splitContainer1.Panel1Collapsed = true;
+            splitContainer1.Panel2Collapsed = false;
+            var cts = new CancellationTokenSource();
+            _ = Task.Run(() =>
+            {
+                var time = 0;
+                while (time < 30 && !cts.Token.IsCancellationRequested)
+                {
+                    if (!prgTimer.IsDisposed)
+                    {
+                        prgTimer.Invoke((MethodInvoker)(() =>
+                        {
+                            prgTimer.Value += 1;
+                        }));
+                    }
+                    Thread.Sleep(1000);
+                    time++;
+                }
+            }, cts.Token);
+
             ILocalHueClient client = new LocalHueClient(bridge.IpAddress);
 
             try
@@ -93,7 +112,7 @@ namespace RecklessBoon.MacroDeck.PhilipsHuePlugin.GUI.Controls
                     {
                         appKey = await client.RegisterAsync("Macro_Deck_2", Environment.MachineName[..Math.Min(Environment.MachineName.Length, 19)]);
                         IsConnected = true;
-                        notifier.Close();
+                        cts.Cancel();
                     }
                     catch (LinkButtonNotPressedException) {}
                     Thread.Sleep(1000);
@@ -110,6 +129,8 @@ namespace RecklessBoon.MacroDeck.PhilipsHuePlugin.GUI.Controls
                 {
                     _ = HueClientHelper.ConnectClient(client, bridge.BridgeId, appKey);
                 }
+                splitContainer1.Panel1Collapsed = false;
+                splitContainer1.Panel2Collapsed = true;
             } catch (Exception) { }    
         }
     }
