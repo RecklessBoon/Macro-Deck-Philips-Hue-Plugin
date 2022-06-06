@@ -5,6 +5,6 @@
   "repository": "https://github.com/RecklessBoon/Macro-Deck-Philips-Hue",
   "packageId": "RecklessBoon.MacroDeck.PhilipsHuePlugin",
   "version": "0.1.0",
-  "target-plugin-api-version": 31,
+  "target-plugin-api-version": 32,
   "dll": "Philips Hue Plugin.dll"
 }

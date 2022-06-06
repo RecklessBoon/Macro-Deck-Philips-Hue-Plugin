@@ -50,7 +50,7 @@ namespace RecklessBoon.MacroDeck.PhilipsHuePlugin.GUI.Controls
             foreach (var client in Cache.HueClients)
             {
                 var bridge = await client.Value.GetBridgeAsync();
-                var index = ddlBridge.Items.Add(bridge.Config.BridgeId.ToLower());
+                var index = ddlBridge.Items.Add(client.Key);
                 if (this._config != null && client.Key == this._config.BridgeId)
                 {
                     preselectIndex = index;

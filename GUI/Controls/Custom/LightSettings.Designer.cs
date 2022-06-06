@@ -45,7 +45,7 @@
             // btnColorSelector
             // 
             this.btnColorSelector.BackColor = System.Drawing.Color.White;
-            this.btnColorSelector.Location = new System.Drawing.Point(153, 26);
+            this.btnColorSelector.Location = new System.Drawing.Point(153, 25);
             this.btnColorSelector.Name = "btnColorSelector";
             this.btnColorSelector.Size = new System.Drawing.Size(182, 23);
             this.btnColorSelector.TabIndex = 10;

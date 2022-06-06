@@ -61,8 +61,7 @@
             // 
             // Configurator
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(587, 384);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.pnlBridges);

@@ -1,4 +1,5 @@
-﻿using Q42.HueApi.Interfaces;
+﻿using Q42.HueApi;
+using Q42.HueApi.Interfaces;
 using RecklessBoon.MacroDeck.PhilipsHuePlugin.GUI.Controls;
 using SuchByte.MacroDeck.GUI.CustomControls;
 using System;
@@ -14,12 +15,9 @@ namespace RecklessBoon.MacroDeck.PhilipsHuePlugin.GUI.Dialog
 {
     public partial class Configurator : DialogForm
     {
-        protected IBridgeLocator Locator;
-
-        public Configurator(IBridgeLocator locator)
+        public Configurator()
         {
             InitializeComponent();
-            Locator = locator;
             this.Load += Configurator_Load;
         }
 
@@ -30,11 +28,13 @@ namespace RecklessBoon.MacroDeck.PhilipsHuePlugin.GUI.Dialog
 
         protected async Task LoadBridges()
         {
-            var bridges = await Locator.LocateBridgesAsync(TimeSpan.FromSeconds(5));
+            var bridges = await HueBridgeDiscovery.FastDiscoveryWithNetworkScanFallbackAsync(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(30));
             foreach(var bridge in bridges)
             {
-                var bridgeControl = new BridgeControl(bridge);
-                bridgeControl.Width = pnlBridges.ClientRectangle.Width;
+                var bridgeControl = new BridgeControl(bridge)
+                {
+                    Width = pnlBridges.ClientRectangle.Width
+                };
                 bridgeControl.lblTitle.Text = bridge.ToString();
                 pnlBridges.Controls.Add(bridgeControl);
             }

@@ -61,7 +61,7 @@ namespace RecklessBoon.MacroDeck.PhilipsHuePlugin
 
         public override void OpenConfigurator()
         {
-            using (var configurator = new Configurator(new HttpBridgeLocator()))
+            using (var configurator = new Configurator())
             {
                 configurator.ShowDialog();
             }
@@ -69,8 +69,7 @@ namespace RecklessBoon.MacroDeck.PhilipsHuePlugin
 
         protected async Task ConnectPreviousClients()
         {
-            var Locator = new HttpBridgeLocator();
-            var bridges = await Locator.LocateBridgesAsync(TimeSpan.FromSeconds(5));
+            var bridges = await HueBridgeDiscovery.FastDiscoveryWithNetworkScanFallbackAsync(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(30));
             foreach (var bridge in bridges)
             {
                 if (Cache.BridgeKeys.ContainsKey(bridge.BridgeId))
