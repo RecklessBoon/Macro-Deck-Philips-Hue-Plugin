@@ -30,7 +30,7 @@ namespace RecklessBoon.MacroDeck.PhilipsHuePlugin.Actions
     public class UpdateLightAction : PluginAction
     {
         // The name of the action
-        public override string Name => "Upate light";
+        public override string Name => "Update light";
 
         // A short description what the action can do
         public override string Description => "Change a Hue light";
